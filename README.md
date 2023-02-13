@@ -6,4 +6,4 @@ Install Python 3.10 before you run the game, the setup is included in the releas
 ![](Images_readme/Title.png)
 
 # Pre-Test Builds
-You can get the Pre-test builds from  , the game is still in devolopment.
+You can get the Pre-test builds from https://github.com/Ravediff/TextLegend-python/releases , the game is still in devolopment.
