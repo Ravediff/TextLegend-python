@@ -1,17 +1,16 @@
 #Project Blah Blah hahahahahah
 #Kinky Product by RaVeN the menace.... KALPA FERNANDO
 
-import sys
-import os
+from game import *
 
-screen_width = 100
+screen_width = 200
 
 ## TITLE SCREEN STUFF ##
 
 def title_select():
     opt = input('> ')
     if opt.lower() == ('play'):
-        sys.exit()
+        intro_game()
     elif opt.lower() == ('quit'):
         quit()
     elif opt.lower() == ('help'):
@@ -27,7 +26,7 @@ def title_select():
         title_screen()
         opt = input('> ')
         if opt.lower() == ('play'):
-            sys.exit()
+            intro_game()
         elif opt.lower() == ('quit'):
             quit()
         elif opt.lower() == ('help'):
