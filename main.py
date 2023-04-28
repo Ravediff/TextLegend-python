@@ -11,7 +11,6 @@ screen_width = 200
 def title_select():
     opt = ''
     while opt.lower() not in ['play', 'quit', 'help', 'load']:
-        title_screen()
         opt = input('> ')
         if opt.lower() == ('play'):
             intro_game()

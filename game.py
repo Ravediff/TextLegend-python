@@ -51,9 +51,8 @@ myPlayer=player()
 
 def save():
     list = [myPlayer.name, myPlayer.hp, myPlayer.mp, myPlayer.job, myPlayer.atk, myPlayer.defs, myPlayer.money, myPlayer.location, myPlayer.city]
-    pickle.dump(list, open("save.dat", "wb"))
-
-
+    with open('save.dat', 'wb') as f:
+        pickle.dump(list, f)
 
 def award(item):
     Res = print(f'You Recieved {item}')
@@ -464,24 +463,22 @@ def eden_town():
             tempLoc = myPlayer.location
             myPlayer.location = ip.lower()
 
-        if eden[ip.lower()] == 0:
-            guild()
-        if eden[ip.lower()] == 1:
-            ironWorks()
-        if eden[ip.lower()] == 2:
-            maryInn()
-        if eden[ip.lower()] == 3:
-            grannyChad()
-        if eden[ip.lower()] == 4:
-            market()
-
-        if ip.lower() == ('save'):
+            if eden[ip.lower()] == 0:
+                guild()
+            elif eden[ip.lower()] == 1:
+                ironWorks()
+            elif eden[ip.lower()] == 2:
+                maryInn()
+            elif eden[ip.lower()] == 3:
+                gChad()
+            elif eden[ip.lower()] == 4:
+                market()
+        if ip.lower() == 'save':
             print('Game has been saved\n')
             save()
             os.system('pause')
             eden_town()
-
-        while ip.lower() not in eden[loc]:
+        elif ip.lower() not in eden.keys():
             print('\nYour output is invalid')
             os.system('pause')
             eden_town()
@@ -489,9 +486,8 @@ def eden_town():
         os.system('pause')
 
 
-
-
 #Shops
+
 def guild():
     global tempLoc
     print('On Work')
@@ -507,6 +503,7 @@ def market():
     if myPlayer.city == 'eden':
         myPlayer.location = tempLoc
         eden_town()
+
 def ironWorks():
     global tempLoc
     print('On Work')
@@ -514,6 +511,7 @@ def ironWorks():
     if myPlayer.city == 'eden':
         myPlayer.location = tempLoc
         eden_town()
+
 def maryInn():
     global tempLoc
     print('On Work')
@@ -521,14 +519,8 @@ def maryInn():
     if myPlayer.city == 'eden':
         myPlayer.location = tempLoc
         eden_town()
-def grannyChad():
-    global tempLoc
-    print('On Work')
-    os.system('pause')
-    if myPlayer.city == 'eden':
-        myPlayer.location = tempLoc
-        eden_town()
-def inferno():
+
+def gChad():
     global tempLoc
     print('On Work')
     os.system('pause')
@@ -536,3 +528,10 @@ def inferno():
         myPlayer.location = tempLoc
         eden_town()
 
+def inferno():
+    global tempLoc
+    print('On Work')
+    os.system('pause')
+    if myPlayer.city == 'eden':
+        myPlayer.location = tempLoc
+        eden_town()
