@@ -41,7 +41,6 @@ def title_screen():
     print('                                              ')
     print('                               @RaVeN Projects')
     print('                                              ')
-    title_select()
 
 def help_menu():
     os.system('cls')
@@ -95,7 +94,7 @@ def quit():
 
 
 def main():
-    title_screen()
+    title_select()
 
 if __name__ == "__main__":
     main()
