@@ -9,22 +9,8 @@ screen_width = 200
 ## TITLE SCREEN STUFF ##
 
 def title_select():
-    opt = input('> ')
-    optl = opt.lower()
-    if optl == ('play'):
-        intro_game()
-    elif opt.lower() == ('quit'):
-        quit()
-    elif opt.lower() == ('help'):
-        help_menu()
-    elif opt.lower() == ('load'):
-        load()
+    opt = ''
     while opt.lower() not in ['play', 'quit', 'help', 'load']:
-        os.system('cls')
-        print('Your input is not valid bro')
-        print('Choose between play, load, help and quit')
-        print('                                              ')
-        os.system('pause')
         title_screen()
         opt = input('> ')
         if opt.lower() == ('play'):
@@ -35,6 +21,12 @@ def title_select():
             help_menu()
         elif opt.lower() == ('load'):
             load()
+        else:
+            os.system('cls')
+            print('Your input is not valid bro')
+            print('Choose between play, load, help and quit')
+            print('                                              ')
+            os.system('pause')
 
 def title_screen():
     os.system('cls')
@@ -49,7 +41,6 @@ def title_screen():
     print('                                              ')
     print('                               @RaVeN Projects')
     print('                                              ')
-    title_select()
 
 def help_menu():
     os.system('cls')
@@ -103,7 +94,7 @@ def quit():
 
 
 def main():
-    title_screen()
+    title_select()
 
 if __name__ == "__main__":
     main()
