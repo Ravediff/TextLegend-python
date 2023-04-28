@@ -27,6 +27,7 @@ def title_select():
             print('Choose between play, load, help and quit')
             print('                                              ')
             os.system('pause')
+            title_screen()
 
 def title_screen():
     os.system('cls')
