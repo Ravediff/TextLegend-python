@@ -19,6 +19,7 @@ def title_select():
             quit()
         elif opt.lower() == ('help'):
             help_menu()
+            title_select()
         elif opt.lower() == ('load'):
             load()
         else:
