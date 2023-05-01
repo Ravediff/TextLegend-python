@@ -10,17 +10,28 @@ screen_width = 200
 
 def title_select():
     opt = ''
-    while opt.lower() not in ['play', 'quit', 'help', 'load']:
+    while opt.lower() not in ['1', '2', '3', '4']:
         opt = input('> ')
-        if opt.lower() == ('play'):
+        if opt == '1':
             intro_game()
-        elif opt.lower() == ('quit'):
-            quit()
-        elif opt.lower() == ('help'):
+        elif opt == '2':
+            load()
+        elif opt == '3':
             help_menu()
             title_select()
-        elif opt.lower() == ('load'):
-            load()
+        elif opt == '4':
+            quit()
+        elif opt == '5':
+            myPlayer.name = 'Kalpa'
+            myPlayer.job = 'Hero'
+            myPlayer.hp = 80
+            myPlayer.mp = 30
+            myPlayer.atk = 8
+            myPlayer.defs = 7
+            myPlayer.money = 900000
+            myPlayer.city = 'eden'
+            myPlayer.location = 'central'
+            eden_town()
         else:
             os.system('cls')
             print('Your input is not valid bro')
@@ -34,14 +45,15 @@ def title_screen():
     print(' _____________________________________________')
     print('|            ---TEXT LEGEND---               |')
     print('|--------------------------------------------|')
-    print('|                  -Play-                    |')
-    print('|                  -Load-                    |')
-    print('|                  -Help-                    |')
-    print('|                  -Quit-                    |')
+    print('|                [1]Play-                    |')
+    print('|                [2]Load-                    |')
+    print('|                [3]Help-                    |')
+    print('|                [4]Quit-                    |')
     print('|____________________________________________|')
     print('                                              ')
     print('                               @RaVeN Projects')
     print('                                              ')
+    title_select()
 
 def help_menu():
     os.system('cls')
@@ -55,6 +67,7 @@ def help_menu():
 
 def load():
     os.system('cls')
+    global Quest
     list = pickle.load(open("save.dat", "rb"))
     myPlayer.name = list[0]
     myPlayer.hp = list[1]
@@ -65,6 +78,9 @@ def load():
     myPlayer.money = list[6]
     myPlayer.location = list[7]
     myPlayer.city = list[8]
+    myPlayer.rank = list[9]
+    if len(Quest) > 0:
+        Quest.append(list[10])
 
     if list[8] == 'eden':
         eden_town()
@@ -74,13 +90,13 @@ def load():
 
 def quit():
     print('Are you sure that you want to quit?')
-    print('-Yes      -No')
+    print('-[1]Yes      -[2]No')
     opt2 = input()
-    if opt2.lower() == ('yes'):
+    if opt2 == '1':
         sys.exit()
-    elif opt2.lower() == ('no'):
+    elif opt2 == '2':
         title_screen()
-    while opt2.lower() not in ['yes', 'no']:
+    while opt2.lower() not in ['1', '2']:
         os.system('cls')
         print('Your input is not valid bro')
         print('Choose between yes and no')
@@ -88,14 +104,28 @@ def quit():
         os.system('pause')
         quit()
         opt2 = input('> ')
-        if opt2.lower() == ('yes'):
+        if opt2 == '1':
             sys.exit()
-        elif opt2.lower() == ('no'):
+        elif opt2 == '2':
             title_screen()
 
+def Ani_screen():
+    print('                                                                                         ')
+    print('                                                                                         ')
+    print('                                                                                         ')
+    print('████████╗███████╗██╗  ██╗████████╗    ██╗     ███████╗ ██████╗ ███████╗███╗   ██╗██████╗')
+    print('╚══██╔══╝██╔════╝╚██╗██╔╝╚══██╔══╝    ██║     ██╔════╝██╔════╝ ██╔════╝████╗  ██║██╔══██╗')
+    print('   ██║   █████╗   ╚███╔╝    ██║       ██║     █████╗  ██║  ███╗█████╗  ██╔██╗ ██║██║  ██║')
+    print('   ██║   ██╔══╝   ██╔██╗    ██║       ██║     ██╔══╝  ██║   ██║██╔══╝  ██║╚██╗██║██║  ██║')
+    print('   ██║   ███████╗██╔╝ ██╗   ██║       ███████╗███████╗╚██████╔╝███████╗██║ ╚████║██████╔╝')
+    print('   ╚═╝   ╚══════╝╚═╝  ╚═╝   ╚═╝       ╚══════╝╚══════╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═════╝')
+    print('                                                                                         ')
+    os.system('pause')
+    os.system('cls')
 
 def main():
-    title_select()
+    Ani_screen()
+    title_screen()
 
 if __name__ == "__main__":
     main()

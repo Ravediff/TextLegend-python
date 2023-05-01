@@ -3,6 +3,7 @@
 from main import *
 from time import sleep
 from map import *
+from qu_sys import *
 import sys
 import os
 import pickle
@@ -11,46 +12,25 @@ tempLoc = ''
 
 
 class player:
-    def name(self):
+    def __init__(self):
         self.name = ''
-        return self.name
-
-    def hp(self):
         self.hp = 0
-        return self.hp
-
-    def atk(self):
         self.atk = 0
-        return self.atk
-
-    def defs(self):
         self.defs = 0
-        return self.defs
-
-    def mp(self):
         self.mp = 0
-        return self.mp
-
-    def job(self):
         self.job = ''
-        return self.job
-
-    def money(self):
         self.money = 0
-        return self.money
-
-    def location(self):
         self.location = ''
-        return self.location
-
-    def city(self):
         self.city = ''
-        return self.city
+        self.rank = ''
 
 myPlayer=player()
 
 def save():
-    list = [myPlayer.name, myPlayer.hp, myPlayer.mp, myPlayer.job, myPlayer.atk, myPlayer.defs, myPlayer.money, myPlayer.location, myPlayer.city]
+    global Quest
+    list = [myPlayer.name, myPlayer.hp, myPlayer.mp, myPlayer.job, myPlayer.atk, myPlayer.defs, myPlayer.money, myPlayer.location, myPlayer.city, myPlayer.rank]
+    if len(Quest) > 0:
+        list.append(Quest[0])
     with open('save.dat', 'wb') as f:
         pickle.dump(list, f)
 
@@ -99,7 +79,7 @@ def Job_classes():
         sys.stdout.write(char)
         sys.stdout.flush()
         sleep(0.02)
-    print('\n1) Hero\n2) Mage\n3) Assasin\n4) Priest\n5) Thief')
+    print('\n[1] Hero\n[2] Mage\n[3] Assasin\n[4] Priest\n[5] Thief')
     opt = input('\nInput the Number That indicates your job: ')
 
     #HERO STUFF
@@ -489,12 +469,80 @@ def eden_town():
 #Shops
 
 def guild():
+    global Quest
+    rank = myPlayer.rank
+    if rank == '':
+            os.system('cls')
+            text = f'So you want to Register to the Guild,\nYou will start at rank D. Then you can go up to Rank S\nBetter The rank Better the Rewards and Harder the challenge\nYou will earn Rank points by completing quests\n You can use them to Upgrade your rank.\nTHATS ALL!\n'
+            for char in text:
+                sys.stdout.write(char)
+                sys.stdout.flush()
+                sleep(0.02)
+            os.system('Pause')
+            rank = 'D'
+            os.system('cls')
+            print(f'Your Rank is Now {rank}')
+            os.system('pause')
+            os.system('cls')
+    elif len(Quest) == 0:
+        ran_Goal()
+    os.system('cls')
     global tempLoc
-    print('On Work')
-    os.system('pause')
-    if myPlayer.city == 'eden':
-        myPlayer.location = tempLoc
-        eden_town()
+    print(' _____________________________________________')
+    print('|               ---Guild---                  |')
+    print('|--------------------------------------------|')
+    print('|                [1]Quest-                   |')
+    print('|                [2]Rank-                    |')
+    print('|                [3]Quit-                    |')
+    print('|____________________________________________|')
+    print('                                              ')
+    ip = input('> ')
+    while True:
+        #Quest
+        if ip == '1':
+            os.system('cls')
+            print(' _____________________________________________')
+            print('|               ---QUESTS---                 |')
+            print('|--------------------------------------------|')
+            print('                                             ')
+            print(f'{Quest[0]}')
+            print('                                             ')
+            print(' [0]Back-                                     ')
+            print('|--------------------------------------------|')
+            ip2 = input('> ')
+            while True:
+                if ip2 == '0':
+                    guild()
+                else:
+                    print('Your input is not valid')
+        #Ranks
+        elif ip == '2':
+            os.system('cls')
+            print(' _____________________________________________')
+            print('|                ---RANK---                  |')
+            print('|--------------------------------------------|')
+            print(f'|              Current Rank {rank}           |')
+            print('                                              ')
+            print('|                [1]Upgrade-                 |')
+            print('|                [0]Back-                    |')
+            print('|--------------------------------------------|')
+            ip2 = input('> ')
+            while True:
+                if ip2 == '0':
+                    guild()
+                elif ip2 == '1':
+                    guild()
+                else:
+                    print('Your input is not valid')
+        #Quit
+        elif ip == '3':
+            os.system('cls')
+            if myPlayer.city == 'eden':
+                myPlayer.location = tempLoc
+                eden_town()
+        else:
+            guild()
+
 
 def market():
     global tempLoc
