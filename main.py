@@ -55,25 +55,31 @@ def help_menu():
 
 
 def load():
-    os.system('cls')
-    global Quest
-    list = pickle.load(open("save.dat", "rb"))
-    myPlayer.name = list[0]
-    myPlayer.hp = list[1]
-    myPlayer.mp = list[2]
-    myPlayer.job = list[3]
-    myPlayer.atk = list[4]
-    myPlayer.defs = list[5]
-    myPlayer.money = list[6]
-    myPlayer.location = list[7]
-    myPlayer.city = list[8]
-    myPlayer.rank = list[9]
-    if len(Quest) > 0:
-        Quest.append(list[10])
+    try:
+        os.system('cls')
+        global Quest
+        list = pickle.load(open("save.dat", "rb"))
+        myPlayer.name = list[0]
+        myPlayer.hp = list[1]
+        myPlayer.mp = list[2]
+        myPlayer.job = list[3]
+        myPlayer.atk = list[4]
+        myPlayer.defs = list[5]
+        myPlayer.money = list[6]
+        myPlayer.location = list[7]
+        myPlayer.city = list[8]
+        myPlayer.rank = list[9]
+        if len(Quest) > 0:
+            Quest.append(list[10])
 
-    if list[8] == 'eden':
-        eden_town()
-    else:
+        if list[8] == 'eden':
+            eden_town()
+        else:
+            title_screen()
+
+    except FileNotFoundError: # handling situation when save file is not found
+        print('- Save file not found -')
+        os.system('pause')
         title_screen()
 
 
