@@ -2,7 +2,7 @@
 #Kinky Product by RaVeN the menace.... KALPA FERNANDO
 
 from game import *
-import os
+import os, sys
 
 screen_width = 200
 
@@ -98,11 +98,6 @@ def quit():
         print('                                              ')
         os.system('pause')
         quit()
-        opt2 = input('> ')
-        if opt2 == '1':
-            sys.exit()
-        elif opt2 == '2':
-            title_screen()
 
 def Ani_screen():
     print('                                                                                         ')
