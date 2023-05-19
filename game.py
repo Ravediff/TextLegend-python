@@ -479,13 +479,10 @@ def guild():
                 sys.stdout.flush()
                 sleep(0.02)
             os.system('Pause')
-            rank = 'D'
+            myPlayer.rank = 'D'
             os.system('cls')
             print(f'Your Rank is Now {rank}')
             os.system('pause')
-            os.system('cls')
-    elif len(Quest) == 0:
-        ran_Goal()
     os.system('cls')
     global tempLoc
     print(' _____________________________________________')
@@ -500,6 +497,8 @@ def guild():
     while True:
         #Quest
         if ip == '1':
+            if len(Quest) == 0:
+                ran_Goal()
             os.system('cls')
             print(' _____________________________________________')
             print('|               ---QUESTS---                 |')
@@ -521,7 +520,7 @@ def guild():
             print(' _____________________________________________')
             print('|                ---RANK---                  |')
             print('|--------------------------------------------|')
-            print(f'|              Current Rank {rank}           |')
+            print(f'|              Current Rank {rank}          |')
             print('                                              ')
             print('|                [1]Upgrade-                 |')
             print('|                [0]Back-                    |')

@@ -21,6 +21,17 @@ def title_select():
             title_select()
         elif opt == '4':
             quit()
+        elif opt == '5':
+            myPlayer.name = 'Kalpa'
+            myPlayer.job = 'Hero'
+            myPlayer.hp = 80
+            myPlayer.mp = 30
+            myPlayer.atk = 8
+            myPlayer.defs = 7
+            myPlayer.money = 900000
+            myPlayer.city = 'eden'
+            myPlayer.location = 'central'
+            eden_town()
         else:
             os.system('cls')
             print('Your input is not valid bro')
