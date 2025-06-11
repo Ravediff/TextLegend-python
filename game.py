@@ -23,6 +23,11 @@ class player:
         self.location = ''
         self.city = ''
         self.rank = ''
+        self.inventory = []
+        self.weapon = 'None'
+        self.armor = 'None'
+        self.shield = 'None'
+
 
 myPlayer=player()
 
@@ -35,8 +40,41 @@ def save():
         pickle.dump(list, f)
 
 def award(item):
-    Res = print(f'You Recieved {item}')
-    return Res
+    myPlayer.inventory.append(item)
+    print(f'You received {item}!')
+    return
+
+def watch_stats():
+    os.system('cls')
+    print('--------------------PLAYER STATS--------------------')
+    print(f'Name : {myPlayer.name}')
+    print(f'Job : {myPlayer.job}')
+    print(f'Rank : {myPlayer.rank}')
+    print(f'HP : {myPlayer.hp}')
+    print(f'MP : {myPlayer.mp}')
+    print(f'ATK : {myPlayer.atk}')
+    print(f'DEF : {myPlayer.defs}')
+    print(f'Money : {myPlayer.money} gold')
+    print('----------------------------------------------------')
+    print(f'Weapon : {myPlayer.weapon}')
+    print(f'Armor : {myPlayer.armor}')
+    print(f'Shield : {myPlayer.shield}')
+    print('----------------------------------------------------')
+    os.system('pause')
+
+def watch_Inve():
+    os.system('cls')
+    print('--------------------PLAYER INVENTORY--------------------')
+    print('Inventory:')
+    if len(myPlayer.inventory) == 0:
+        print('- Empty -')
+    else:
+        num = 0
+        for item in myPlayer.inventory:
+            num = num + 1
+            print(f'[{num}] {item}')
+    print('----------------------------------------------------')
+    os.system('pause')
 
 def intro_game():
     os.system('cls')
@@ -413,7 +451,6 @@ def story1():
     os.system('pause')
     os.system('cls')
     Gold = '1000 gold'
-    award(Gold)
     myPlayer.money = 1000
     print('\nHeads Out')
     myPlayer.city = ('eden')
@@ -423,157 +460,326 @@ def story1():
 
 #--------------------------------------------------Eden Town----------------------------------------------------------------
 def eden_town():
-    loc = myPlayer.location
-    os.system('cls')
-    print('---------------------Eden Town---------------------')
-    print('___________________________________________________')
-    print('                                                   ')
-    print(f'current location: Eden {loc}')
-    print(f'Money :  {myPlayer.money} gold')
-    print('                                                   ')
-    print('---------------------------------------------------')
-    print(f'Can move to {eden[loc]}')
-    print('                                                   ')
-    print('Type the name of the place to visit')
-    ip = input(f'What you wanna do? > ')
-
+    global tempLoc
     while True:
-        if ip.lower() in list(eden[loc]):
-            global tempLoc
-            tempLoc = myPlayer.location
-            myPlayer.location = ip.lower()
+        loc = myPlayer.location
+        os.system('cls')
+        print('---------------------Eden Town---------------------')
+        print('___________________________________________________')
+        print('                                                   ')
+        print(f'Current location: Eden {loc}')
+        print(f'Money :  {myPlayer.money} gold')
+        print('                                                   ')
+        print('---------------------------------------------------')
+        print(f'Can move to: {eden[loc]}')
+        print('                                                   ')
+        print('Other Prompts: Stats (See Stats)')
+        print('             : Inv (See Inventory)\n ')
+        print('Type the name of the place to visit (or type "save")')
+        ip = input(f'What you wanna do? > ').lower()
 
-            if eden[ip.lower()] == 0:
-                guild()
-            elif eden[ip.lower()] == 1:
-                ironWorks()
-            elif eden[ip.lower()] == 2:
-                maryInn()
-            elif eden[ip.lower()] == 3:
-                gChad()
-            elif eden[ip.lower()] == 4:
-                market()
-        if ip.lower() == 'save':
+        if ip == 'save':
             print('Game has been saved\n')
             save()
             os.system('pause')
-            eden_town()
-        elif ip.lower() not in eden.keys():
-            print('\nYour output is invalid')
+            continue
+
+        if ip.lower() == 'stats':
+            watch_stats()
+            continue
+        if ip.lower() == 'inv':
+            watch_Inve()
+            continue
+
+
+        if ip in eden[loc]:
+            tempLoc = myPlayer.location
+            myPlayer.location = ip
+
+            # Check if ip is a special location (shop) by checking if its value is an int
+            if isinstance(eden[ip], int):
+                if eden[ip] == 0:
+                    guild()
+                elif eden[ip] == 1:
+                    ironWorks()
+                elif eden[ip] == 2:
+                    maryInn()
+                elif eden[ip] == 3:
+                    gChad()
+                elif eden[ip] == 4:
+                    market()
+            else:
+                # It's a regular map location — just continue loop to refresh display
+                continue
+
+        else:
+            print('\nYour input is invalid')
             os.system('pause')
-            eden_town()
-        eden_town()
-        os.system('pause')
+
+
 
 
 #Shops
 
 def guild():
     global Quest
-    rank = myPlayer.rank
-    if rank == '':
-            os.system('cls')
-            text = f'So you want to Register to the Guild,\nYou will start at rank D. Then you can go up to Rank S\nBetter The rank Better the Rewards and Harder the challenge\nYou will earn Rank points by completing quests\n You can use them to Upgrade your rank.\nTHATS ALL!\n'
-            for char in text:
-                sys.stdout.write(char)
-                sys.stdout.flush()
-                sleep(0.02)
-            os.system('Pause')
-            myPlayer.rank = 'D'
-            os.system('cls')
-            print(f'Your Rank is Now {rank}')
-            os.system('pause')
-    os.system('cls')
     global tempLoc
-    print(' _____________________________________________')
-    print('|               ---Guild---                  |')
-    print('|--------------------------------------------|')
-    print('|                [1]Quest-                   |')
-    print('|                [2]Rank-                    |')
-    print('|                [3]Quit-                    |')
-    print('|____________________________________________|')
-    print('                                              ')
-    ip = input('> ')
+    rank = myPlayer.rank
+
+    if rank == '':
+        os.system('cls')
+        text = ('So you want to Register to the Guild,\n'
+                'You will start at rank D. Then you can go up to Rank S\n'
+                'Better The rank Better the Rewards and Harder the challenge\n'
+                'You will earn Rank points by completing quests\n'
+                'You can use them to Upgrade your rank.\nTHATS ALL!\n')
+        for char in text:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            sleep(0.02)
+        os.system('pause')
+        myPlayer.rank = 'D'
+
     while True:
-        #Quest
+        os.system('cls')
+        print(' _____________________________________________')
+        print('|               ---Guild---                  |')
+        print('|--------------------------------------------|')
+        print('|                [1]Quest-                   |')
+        print('|                [2]Rank-                    |')
+        print('|                [3]Quit-                    |')
+        print('|____________________________________________|')
+        print('                                              ')
+        ip = input('> ')
+
         if ip == '1':
             if len(Quest) == 0:
                 ran_Goal()
-            os.system('cls')
-            print(' _____________________________________________')
-            print('|               ---QUESTS---                 |')
-            print('|--------------------------------------------|')
-            print('                                             ')
-            print(f'{Quest[0]}')
-            print('                                             ')
-            print(' [0]Back-                                     ')
-            print('|--------------------------------------------|')
-            ip2 = input('> ')
             while True:
+                os.system('cls')
+                print(' _____________________________________________')
+                print('|               ---QUESTS---                 |')
+                print('|--------------------------------------------|')
+                print('                                             ')
+                print(f'{Quest[0]}')
+                print('                                             ')
+                print(' [0]Back-                                     ')
+                print('|--------------------------------------------|')
+                ip2 = input('> ')
                 if ip2 == '0':
-                    guild()
+                    break
                 else:
                     print('Your input is not valid')
-        #Ranks
+                    os.system('pause')
+
         elif ip == '2':
-            os.system('cls')
-            print(' _____________________________________________')
-            print('|                ---RANK---                  |')
-            print('|--------------------------------------------|')
-            print(f'|              Current Rank {rank}          |')
-            print('                                              ')
-            print('|                [1]Upgrade-                 |')
-            print('|                [0]Back-                    |')
-            print('|--------------------------------------------|')
-            ip2 = input('> ')
             while True:
+                os.system('cls')
+                print(' _____________________________________________')
+                print('|                ---RANK---                  |')
+                print('|--------------------------------------------|')
+                print(f'|              Current Rank {myPlayer.rank}          |')
+                print('                                              ')
+                print('|                [1]Upgrade-                 |')
+                print('|                [0]Back-                    |')
+                print('|--------------------------------------------|')
+                ip2 = input('> ')
                 if ip2 == '0':
-                    guild()
+                    break
                 elif ip2 == '1':
-                    guild()
+                    rank_Up()
+                    break
                 else:
                     print('Your input is not valid')
-        #Quit
+                    os.system('pause')
+
         elif ip == '3':
             os.system('cls')
             if myPlayer.city == 'eden':
                 myPlayer.location = tempLoc
-                eden_town()
+                return  # Go back to eden_town()
+
         else:
-            guild()
+            print('Your input is not valid')
+            os.system('pause')
+
 
 
 def market():
     global tempLoc
-    print('On Work')
-    os.system('pause')
-    if myPlayer.city == 'eden':
-        myPlayer.location = tempLoc
-        eden_town()
+    while True:
+        os.system('cls')
+        print('--------------------MARKET--------------------')
+        print(f'Money : {myPlayer.money} gold')
+        print('----------------------------------------------')
+        print('[1] Small HP Potion - 50 gold')
+        print('[2] Large HP Potion - 150 gold')
+        print('[3] Food Ration - 30 gold')
+        print('[0] Leave Market')
+        print('----------------------------------------------')
+        ip = input('> ')
+
+        if ip == '0':
+            if myPlayer.city == 'eden':
+                myPlayer.location = tempLoc
+                return
+
+        elif ip == '1':
+            if myPlayer.money >= 50:
+                myPlayer.money -= 50
+                award('Small HP Potion')
+            else:
+                print('Bro, you poor!')
+            os.system('pause')
+
+        elif ip == '2':
+            if myPlayer.money >= 150:
+                myPlayer.money -= 150
+                award('Large HP Potion')
+            else:
+                print('Not enough gold for this!')
+            os.system('pause')
+
+        elif ip == '3':
+            if myPlayer.money >= 30:
+                myPlayer.money -= 30
+                award('Food Ration')
+            else:
+                print('Not enough gold!')
+            os.system('pause')
+
+        else:
+            print('Invalid choice')
+            os.system('pause')
+
 
 def ironWorks():
     global tempLoc
-    print('On Work')
-    os.system('pause')
-    if myPlayer.city == 'eden':
-        myPlayer.location = tempLoc
-        eden_town()
+    while True:
+        os.system('cls')
+        print('------------------IRONWORKS------------------')
+        print(f'Money : {myPlayer.money} gold')
+        print('----------------------------------------------')
+        print('[1] Wood Sword - 200 gold')
+        print('[2] Wood Shield - 150 gold')
+        print('[3] Leather Armor - 180 gold')
+        print('[0] Leave IronWorks')
+        print('----------------------------------------------')
+        ip = input('> ')
+
+        if ip == '0':
+            if myPlayer.city == 'eden':
+                myPlayer.location = tempLoc
+                return
+
+        elif ip == '1':
+            if myPlayer.money >= 200:
+                myPlayer.money -= 200
+                award('Wood Sword')
+            else:
+                print('Go kill some goblins for money lol')
+            os.system('pause')
+
+        elif ip == '2':
+            if myPlayer.money >= 150:
+                myPlayer.money -= 150
+                award('Wood Shield')
+            else:
+                print('Gold not enough bruh')
+            os.system('pause')
+
+        elif ip == '3':
+            if myPlayer.money >= 180:
+                myPlayer.money -= 180
+                award('Leather Armor')
+            else:
+                print('No gold no armor')
+            os.system('pause')
+
+        else:
+            print('Invalid choice')
+            os.system('pause')
+
 
 def maryInn():
     global tempLoc
-    print('On Work')
-    os.system('pause')
-    if myPlayer.city == 'eden':
-        myPlayer.location = tempLoc
-        eden_town()
+    while True:
+        os.system('cls')
+        print('-------------------MARY INN-------------------')
+        print(f'Money : {myPlayer.money} gold')
+        print('----------------------------------------------')
+        print('[1] Rest (Heal fully) - 25 gold')
+        print('[0] Leave Inn')
+        print('----------------------------------------------')
+        ip = input('> ')
+
+        if ip == '0':
+            if myPlayer.city == 'eden':
+                myPlayer.location = tempLoc
+                return
+
+        elif ip == '1':
+            if myPlayer.money >= 25:
+                myPlayer.money -= 25
+                myPlayer.hp = 100
+                myPlayer.mp = 100
+                print('You are fully rested! Go fight again!')
+            else:
+                print('Poor adventurer can’t rest...')
+            os.system('pause')
+
+        else:
+            print('Invalid choice')
+            os.system('pause')
+
 
 def gChad():
     global tempLoc
-    print('On Work')
-    os.system('pause')
-    if myPlayer.city == 'eden':
-        myPlayer.location = tempLoc
-        eden_town()
+    while True:
+        os.system('cls')
+        print('------------GRANNY CHAD MAGIC SHOP------------')
+        print(f'Money : {myPlayer.money} gold')
+        print('----------------------------------------------')
+        print('[1] Small MP Potion - 50 gold')
+        print('[2] Large MP Potion - 150 gold')
+        print('[3] Magic Juice - 300 gold')
+        print('[0] Leave Magic Shop')
+        print('----------------------------------------------')
+        ip = input('> ')
+
+        if ip == '0':
+            if myPlayer.city == 'eden':
+                myPlayer.location = tempLoc
+                return
+
+        elif ip == '1':
+            if myPlayer.money >= 50:
+                myPlayer.money -= 50
+                award('Small MP Potion')
+            else:
+                print('You need more gold!')
+            os.system('pause')
+
+        elif ip == '2':
+            if myPlayer.money >= 150:
+                myPlayer.money -= 150
+                award('Large MP Potion')
+            else:
+                print('Granny says come back with more gold')
+            os.system('pause')
+
+        elif ip == '3':
+            if myPlayer.money >= 300:
+                myPlayer.money -= 300
+                award('Magic Juice')
+            else:
+                print('Granny says: no money no Juice!')
+            os.system('pause')
+
+        else:
+            print('Invalid choice')
+            os.system('pause')
+
 
 def inferno():
     global tempLoc
